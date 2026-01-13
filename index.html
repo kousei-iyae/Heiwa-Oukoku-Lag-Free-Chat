@@ -8,9 +8,9 @@
         body {
             background-color: black;
         }
-        /* Sets the color for links and the Disqus "Login" text area */
+        /* Fallback for the noscript link and general page links */
         a {
-            color: #00FFFF !important; /* Bright Cyan / Turquoise */
+            color: #00FFFF !important;
         }
     </style>
 </head>
@@ -22,6 +22,14 @@
         var disqus_config = function () {
             this.page.url = "[https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html](https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html)";
             this.page.identifier = "[https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html](https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html)";
+            
+            /* Overriding the internal Disqus link color */
+            this.callbacks.onReady = [function() {
+                var el = document.querySelector('#disqus_thread iframe');
+                if (el) {
+                    el.style.color = "#00FFFF";
+                }
+            }];
         };
 
         (function() { 
@@ -33,7 +41,7 @@
     </script>
     
     <noscript>
-        Please enable JavaScript to view the <a href="[https://disqus.com/?ref_noscript](https://disqus.com/?ref_noscript)">comments powered by Disqus.</a>
+        Please enable JavaScript to view the <a href="[https://disqus.com/?ref_noscript](https://disqus.com/?ref_noscript)" style="color: #00FFFF;">comments powered by Disqus.</a>
     </noscript>
 
 </body>
