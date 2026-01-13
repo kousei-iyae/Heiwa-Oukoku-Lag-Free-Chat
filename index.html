@@ -7,12 +7,22 @@
     <style>
         body {
             background-color: black;
-            /* Fixes the 105% width / side-scrolling issue */
             margin: 0;
             width: 100vw;
             overflow-x: hidden;
+            /* Helps mobile browsers prioritize touch/click response over background scripts */
+            touch-action: pan-y;
         }
-        /* This sets the link color for the page and helps Disqus identify the accent color */
+        
+        #disqus_thread {
+            /* This is the key for modern Androids: it tells the browser to only 
+               calculate the layout for the visible part of the chat, which 
+               prevents "click-freezes" on Reply/Upvote buttons. */
+            content-visibility: auto;
+            contain-intrinsic-size: 500px;
+            width: 100%;
+        }
+
         a {
             color: #00FFFF !important; 
         }
@@ -28,10 +38,7 @@
             this.page.identifier = "https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html";
         };
 
-        /* OPTIMIZATION: Intersection Observer
-           This waits until the chat is about to be seen before loading Disqus.
-           This solves the "Lag/Stutter" on 120Hz Android phones.
-        */
+        // Optimized Lazy Loader to keep the main thread clear for clicks and scrolls
         var disqus_observer = new IntersectionObserver(function(entries) {
             if(entries[0].isIntersecting) {
                 (function() { 
@@ -40,10 +47,13 @@
                     s.setAttribute('data-timestamp', +new Date());
                     (d.head || d.body).appendChild(s);
                 })();
-                // Once triggered, stop observing to save battery/resources
                 disqus_observer.disconnect();
             }
-        }, { threshold: [0] });
+        }, { 
+            // Start loading when the chat is 100px away from appearing 
+            // so it feels instant but doesn't lag the page load.
+            rootMargin: "100px" 
+        });
 
         disqus_observer.observe(document.querySelector("#disqus_thread"));
     </script>
