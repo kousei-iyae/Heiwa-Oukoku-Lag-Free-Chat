@@ -7,6 +7,7 @@
     <style>
         body {
             background-color: black;
+            /* Fixes the 105% width / side-scrolling issue */
             margin: 0;
             width: 100vw;
             overflow-x: hidden;
@@ -27,12 +28,24 @@
             this.page.identifier = "https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html";
         };
 
-        (function() { 
-            var d = document, s = d.createElement('script');
-            s.src = 'https://heiwa-oukoku.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
+        /* OPTIMIZATION: Intersection Observer
+           This waits until the chat is about to be seen before loading Disqus.
+           This solves the "Lag/Stutter" on 120Hz Android phones.
+        */
+        var disqus_observer = new IntersectionObserver(function(entries) {
+            if(entries[0].isIntersecting) {
+                (function() { 
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://heiwa-oukoku.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+                // Once triggered, stop observing to save battery/resources
+                disqus_observer.disconnect();
+            }
+        }, { threshold: [0] });
+
+        disqus_observer.observe(document.querySelector("#disqus_thread"));
     </script>
     
     <noscript>
