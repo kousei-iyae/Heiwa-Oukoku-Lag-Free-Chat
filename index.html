@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heiwa Oukoku Main Chat (Lag Free)</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            width: 100vw;
+            overflow-x: hidden;
+            /* Helps mobile browsers prioritize touch/click response over background scripts */
+            touch-action: pan-y;
+        }
+        
+        #disqus_thread {
+            /* This is the key for modern Androids: it tells the browser to only 
+               calculate the layout for the visible part of the chat, which 
+               prevents "click-freezes" on Reply/Upvote buttons. */
+            content-visibility: auto;
+            contain-intrinsic-size: 500px;
+            width: 100%;
+        }
+
+        a {
+            color: #00FFFF !important; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="disqus_thread"></div>
+
+    <script>
+        var disqus_config = function () {
+            this.page.url = "https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html";
+            this.page.identifier = "https://heiwaoukoku.blogspot.com/2025/12/main-cat-ver-5.html";
+        };
+
+        // Optimized Lazy Loader to keep the main thread clear for clicks and scrolls
+        var disqus_observer = new IntersectionObserver(function(entries) {
+            if(entries[0].isIntersecting) {
+                (function() { 
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://heiwa-oukoku.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+                disqus_observer.disconnect();
+            }
+        }, { 
+            // Start loading when the chat is 100px away from appearing 
+            // so it feels instant but doesn't lag the page load.
+            rootMargin: "100px" 
+        });
+
+        disqus_observer.observe(document.querySelector("#disqus_thread"));
+    </script>
+    
+    <noscript>
+        Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+
+</body>
+</html>
