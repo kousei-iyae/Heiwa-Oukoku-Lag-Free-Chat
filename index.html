@@ -8,6 +8,10 @@
         body {
             background-color: black;
         }
+        /* This sets the link color for the page and helps Disqus identify the accent color */
+        a {
+            color: #00FFFF !important; 
+        }
     </style>
 </head>
 <body>
@@ -22,14 +26,14 @@
 
         (function() { 
             var d = document, s = d.createElement('script');
-            s.src = '[https://heiwa-oukoku.disqus.com/embed.js](https://heiwa-oukoku.disqus.com/embed.js)';
+            s.src = 'https://heiwa-oukoku.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
     </script>
     
     <noscript>
-        Please enable JavaScript to view the <a href="[https://disqus.com/?ref_noscript](https://disqus.com/?ref_noscript)">comments powered by Disqus.</a>
+        Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
     </noscript>
 
 </body>
